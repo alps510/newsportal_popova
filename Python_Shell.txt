@@ -1,0 +1,64 @@
+1. from news.models import Users
+User.objects.create_user('Саша')     
+<User: Саша>
+>>> User.objects.create_user('Миша') 
+<User: Миша>
+>>> User.objects.create_user('Паша') 
+<User: Паша>
+
+2. from news.models import Author
+ Author.objects.create(user_id = 1)             
+<Author: Author object (1)>
+>>> Author.objects.create(user_id = 3) 
+<Author: Author object (2)>
+
+3. from news.models import Category               
+>>> cat1 = Category.objects.create(name = 'MED')
+>>> cat2 = Category.objects.create(name = 'IT')  
+>>> cat3 = Category.objects.create(name = 'SP') 
+>>> cat4 = Category.objects.create(name = 'CUL') 
+
+
+4. from news.models import Post
+post1 = Post.objects.create(author_id = 1, post = 'N', title = 'Intel Alder Lake', content = 'Систему с Intel Alder Lake протестировали с Windows 11 и разными L
+inux — в 72 % тестов ОС Microsoft оказалась самой медленной')
+ 
+post2 = Post.objects.create(author_id = 1, post = 'A', title = 'Роботы-пациенты', content = 'Современные технологии предлагают врачам целый набор реалистичных и «умных» роботов для отработки различных навыков. Есть роботы-младенцы и роботы-подростки PediaSIM канадского производства для педиатров, роботы-роженицы для акушеров, американские роботы Code Blue III для отработки навыков реаниматологов — в них запрограммированы инфаркты и инсульты.')
+ 
+post3 = Post.objects.create(author_id = 2, post = 'A', title = 'Ходить правильно', content = 'Инновационный подход к формированию навыка правильной ходьбы – так
+ова главная особенность программа X-Move. Она предлагает сначала освоить правильные функциональные движения, а затем закрепить навык в условиях реальной ситуационно
+й биомеханики.')
+5. post3.category.add(1) 
+post1.category.add(2)
+post2.category.add(2) 
+post2.category.add(1)
+>>> post3.category.add(2) 
+>>> post3.category.add(3) 
+6. from news.models import Comment
+>>>com1 = Comment.objects.create(post_id = 3, user_id = 1, content = 'Если взять кумулятивный результат по всем тестам, Ubuntu 22.04 LTS оказалась быстрее Windows 
+11 на 4 %')
+com2 = Comment.objects.create(post_id = 3, user_id = 2, content = 'А в случае с Clear Linux разрыв увеличился до 8 %') 
+com3 = Comment.objects.create(post_id = 4, user_id = 3, content = 'это отлично подходит для корректировки двигательных паттернов, которые впоследствии необходим
+о применить к движению в повседневной жизни')
+>>> com4 = Comment.objects.create(post_id = 5, user_id = 1, content = 'принципиально отличается от традиционных функциональных тренировок') 
+7.  com2.like()
+>>> com4.dislike() 
+>>> com4.dislike()
+>>> com3.dislike()
+Comment.objects.filter(id=1)[0].like() 
+Post.objects.filter(id=3)[0].like() 
+>>> Post.objects.filter(id=3)[0].like()     
+>>> Post.objects.filter(id=4)[0].like() 
+>>> Post.objects.filter(id=5)[0].like() 
+>>> Post.objects.filter(id=5)[0].like()
+>>> Post.objects.filter(id=5)[0].like()
+>>> Post.objects.filter(id=3)[0].dislike() 
+
+8. from news.models import Author  
+Author.objects.filter(id=2)[0].update_rating()
+6
+>>> Author.objects.filter(id=1)[0].update_rating() 
+8
+9. Author.objects.order_by('-rating').values('user', 'rating')[0]
+10.  Post.objects.order_by('-rating').values('author', 'rating', 'title', 'date')[0]
+11. Comment.objects.filter(post=Post.objects.order_by('-rating').values('id')[0]['id']).values('date', 'user', 'rating', 'content')
